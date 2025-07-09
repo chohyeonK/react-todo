@@ -1,5 +1,5 @@
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import UpdatePopup from './components/UpdatePopup';
 
 function App() {
@@ -7,12 +7,14 @@ function App() {
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [showCompleted, setShowCompleted] = useState(true);
+  const idRef = useRef(1);
   const [selectedPriority, setSelectedPriority] = useState('');
   const [inputValue, setInputValue] = useState({
     name: '',
     end: '',
     completed: false,
-    priority: 'middle'
+    priority: 'middle',
+    id: idRef.current
   });
 
   const handleInputChange = (e) => {
@@ -30,24 +32,25 @@ function App() {
       name: '',
       end: '',
       completed: false,
-      priority: 'middle'
+      priority: 'middle',
+      id: idRef.current += 1
     });
   };
 
-  const deleteData = (paramIndex) => {
-    setTodoList((todo) => todo.filter((_, index) => index != paramIndex));
+  const deleteData = (targetId) => {
+    setTodoList((todo) => todo.filter((item) => item.id != targetId));
   }
 
   const updateData = (newData) => {
     setTodoList((todo) =>
-      todo.map((item, i) => (i === selectedIndex ? newData : item))
+      todo.map((item) => (item.id === selectedIndex ? newData : item))
     );
     setOpen(false);
   }
 
-  const completedData = (index) => {
-    setTodoList(todoList.map((todo, idx) =>
-      idx === index ? { ...todo, completed: !todo.completed } : todo
+  const completedData = (targetId) => {
+    setTodoList(todoList.map((todo) =>
+      todo.id === targetId ? { ...todo, completed: !todo.completed } : todo
     ));
   }
 
@@ -155,7 +158,7 @@ function App() {
                     <button
                       className="p-2 rounded-full bg-green-100 text-green-600 hover:bg-green-200 transition"
                       title="완료"
-                      onClick={() => completedData(index)}
+                      onClick={() => completedData(item.id)}
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2"
                         viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
@@ -167,7 +170,7 @@ function App() {
                       className="p-2 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 transition"
                       title="수정"
                       onClick={() => {
-                        setSelectedIndex(index);
+                        setSelectedIndex(item.id);
                         setOpen(true);
                       }}
                     >
@@ -181,7 +184,7 @@ function App() {
                     <button
                       className="p-2 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition"
                       title="삭제"
-                      onClick={() => deleteData(index)}
+                      onClick={() => deleteData(item.id)}
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2"
                         viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
@@ -221,7 +224,7 @@ function App() {
         </div>
 
         {open && selectedIndex !== null && (
-          <UpdatePopup todo={todoList[selectedIndex]} onUpdate={updateData} onClose={() => setOpen(false)} />
+          <UpdatePopup todo={todoList.find((todo) => todo.id === selectedIndex)} onUpdate={updateData} onClose={() => setOpen(false)} />
         )}
       </div>
     </div>
