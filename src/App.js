@@ -38,20 +38,16 @@ function App() {
   };
 
   const deleteData = (targetId) => {
-    setTodoList((todo) => todo.filter((item) => item.id != targetId));
+    setTodoList((prev) => prev.filter((item) => item.id !== targetId));
   }
 
   const updateData = (newData) => {
-    setTodoList((todo) =>
-      todo.map((item) => (item.id === selectedIndex ? newData : item))
-    );
+    setTodoList((prev) => prev.map((item) => (item.id === selectedIndex ? newData : item)));
     setOpen(false);
   }
 
   const completedData = (targetId) => {
-    setTodoList(todoList.map((todo) =>
-      todo.id === targetId ? { ...todo, completed: !todo.completed } : todo
-    ));
+    setTodoList((prev) => prev.map((item) => item.id === targetId ? { ...item, completed: !item.completed} : item));
   }
 
   const toggleShowCompleted = () => {
