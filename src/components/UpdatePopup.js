@@ -1,16 +1,21 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const UpdatePopup = ({ todo, onUpdate, onClose }) => {
-    const [form, setForm] = useState({...todo});
+    const [form, setForm] = useState(todo);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setForm((todo) => ({...todo, [name]:value})); 
+        setForm((prev) => ({...prev, [name]:value})); 
     }
 
     const handleSubmit = () => {
+        if (form.name.trim() === '') return;
         onUpdate(form);
     }
+
+    useEffect(()=>{
+        setForm(todo);
+    }, [todo]);
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
