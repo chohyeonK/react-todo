@@ -3,21 +3,19 @@ import { useRef, useState } from 'react';
 export default function useTodo() {
     const [todoList, setTodoList] = useState([]);
     const idRef = useRef(1);
-    const [open, setOpen] = useState(false);
+
     const [inputValue, setInputValue] = useState({
         name: '',
         end: '',
         completed: false,
         priority: 'middle'
     });
-
-
-
-    const insertData = (todo) => {
-        if (todo.name.trim() === '') return;
+    
+    const insertData = () => {
+        if (inputValue.name.trim() === '') return;
 
         const newTodo = {
-            ...todo,
+            ...inputValue,
             id: idRef.current++
         };
 

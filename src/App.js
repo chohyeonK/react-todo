@@ -20,9 +20,8 @@ function App() {
   const [showCompleted, setShowCompleted] = useState(true);
   const [selectedPriority, setSelectedPriority] = useState('');
 
-
   const handleInsert = () => {
-    insertData(inputValue);
+    insertData();
   }
 
   const handleUpdate = (newData) => {
@@ -38,7 +37,6 @@ function App() {
     const selectedValue = e.target.value;
     setSelectedPriority(selectedValue);
   }
-
 
   // 필터링된 리스트를 분리
   const filteredTodoList = todoList.filter((item) => {
