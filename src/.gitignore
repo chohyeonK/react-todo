@@ -2,7 +2,7 @@
 /node_modules
 
 # Firebase 설정 파일
-src/firebase.js
+/src/firebase.js
 
 # 환경 변수 파일
 .env
