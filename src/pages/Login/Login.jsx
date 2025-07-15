@@ -6,19 +6,25 @@ import InputField from "../../components/ui/InputField"
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase'
 import { useState } from "react";
+import useUserStore from "../../stores/useUserStore";
 
 const Login = () => {
   const navigate = useNavigate();
   const [ email, setEmail] = useState('');
-  const [ password, setPassword ] = useState('')
+  const [ password, setPassword ] = useState('');
+  const setUser = useUserStore((state) => state.setUser);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      const userId = user.uid;
-      console.log('로그인 성공')
+      
+      setUser({
+        uid: user.uid,
+        email: user.email
+      });
+
       navigate(`/todo/${user.uid}`);
     } catch (err) {
       console.log(err)
