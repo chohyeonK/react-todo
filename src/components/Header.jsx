@@ -17,7 +17,7 @@ const Header = () => {
             {/* 로고 또는 앱 이름 */}
             <div
                 className="text-lg font-bold text-indigo-600 cursor-pointer"
-                onClick={() => navigate('/')}
+                onClick={() => navigate(`/todo/${user.uid}`)}
             >
                 MyTodo
             </div>

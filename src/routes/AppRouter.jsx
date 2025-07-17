@@ -9,6 +9,8 @@ import TodoUser from '../pages/Todo/TodoUser'
 import useUserStore from '../stores/useUserStore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase';
+import FindId from '../pages/Login/FindId';
+import FindPassword from '../pages/Login/FindPassword';
 
 const AppRouter = () => {
     // 앱 시작 시 로그인 상태 유지하도록 처리
@@ -29,6 +31,8 @@ const AppRouter = () => {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/findId" element={<FindId />} />
+                <Route path="/findPw" element={<FindPassword />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/todo" element={<TodoGuest />} />
                 <Route path="/todo/:userId" element={

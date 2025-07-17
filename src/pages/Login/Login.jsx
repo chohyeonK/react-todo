@@ -56,7 +56,7 @@ const Login = () => {
             onChange={(e) => setEmail(e.target.value)}
           >
             <div className="text-sm">
-              <span href="#" className="font-semibold text-indigo-600 hover:text-indigo-500" onClick={() => navigate('/')}>
+              <span onClick={() => navigate('/findId')} className="font-semibold text-indigo-600 hover:text-indigo-500">
                 이메일 찾기
               </span>
             </div>
@@ -72,7 +72,7 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           >
             <div className="text-sm">
-              <span href="#" className="font-semibold text-indigo-600 hover:text-indigo-500" onClick={() => navigate('/')}>
+              <span onClick={() => navigate('/findPw')} className="font-semibold text-indigo-600 hover:text-indigo-500">
                 비밀번호 찾기
               </span>
             </div>
