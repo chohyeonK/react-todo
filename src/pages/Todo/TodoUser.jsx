@@ -13,7 +13,8 @@ const TodoUser = () => {
     updateData,
     completedData,
     inputValue,
-    handleInputChange
+    handleInputChange,
+    getTodoList
   } = useTodo();
 
   const [open, setOpen] = useState(false);
@@ -49,6 +50,14 @@ const TodoUser = () => {
 
     return true;
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getTodoList(); // todoList 상태는 useTodo 내부에서 갱신될 것
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center">
