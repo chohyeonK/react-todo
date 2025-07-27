@@ -2,15 +2,24 @@ import React, { useState } from 'react'
 import Button from "../../components/ui/Button"
 import InputField from "../../components/ui/InputField"
 import { useNavigate } from "react-router-dom"
+import { initializeApp, db, auth, doc, setDoc, createUserWithEmailAndPassword } from "../../firebase";
+import { sendPasswordResetEmail } from "firebase/auth";
 
 const FindPassword = () => {
     const navigate = useNavigate('');
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [password2, setPassword2] = useState('');
-    const handleFindPw = (e) => {
+    const findPassword = async (e, email) => {
         e.preventDefault();
-        console.log('jj')
+        try {
+            await sendPasswordResetEmail(auth, email);
+            alert('비밀번호 재설정 이메일을 보냈습니다. 이메일을 확인해주세요.');
+        } catch (err) {
+            if (err.code === "auth/user-not-found") {
+                alert('존재하지 않는 이메일입니다. 이메일을 다시 확인해주세요.');
+            } else {
+                alert('에러: ', err)
+            }
+        }
     }
 
     return (
@@ -26,7 +35,7 @@ const FindPassword = () => {
 
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form onSubmit={handleFindPw} className="space-y-6">
+                <form onSubmit={(e) => findPassword(e, email)} className="space-y-6">
                     <div className="flex items-end space-x-2">
                         <div className="flex-1">
                             <InputField
@@ -39,31 +48,7 @@ const FindPassword = () => {
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
-                        <Button label="인증" color="gray" type="button" />
                     </div>
-
-                    <InputField
-                        id="password"
-                        name="password"
-                        type="password"
-                        label="비밀번호"
-                        autoComplete="current-password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        disabled
-                    />
-
-                    <InputField
-                        id="password2"
-                        name="password2"
-                        type="password"
-                        label="비밀번호 확인"
-                        autoComplete="current-password"
-                        value={password2}
-                        onChange={(e) => setPassword2(e.target.value)}
-                        disabled
-                    />
-
                     <div>
                         <Button label='비밀번호 찾기' color='indigo' type='submit' />
                     </div>

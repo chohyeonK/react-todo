@@ -3,6 +3,7 @@ import Button from "../../components/ui/Button"
 import InputField from "../../components/ui/InputField"
 import { useState } from "react";
 import { initializeApp, db, auth, doc, setDoc, createUserWithEmailAndPassword } from "../../firebase";
+import { sendPasswordResetEmail } from "firebase/auth";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -30,12 +31,14 @@ const Signup = () => {
       alert('회원가입을 성공하였습니다.');
       navigate('/login');
     } catch (err) {
-      alert('회원가입에 실패하였습니다.')
-      console.log(err)
+      if (err.code === 'auth/email-already-in-use') {
+        alert('이미 사용중인 이메일입니다.')
+      } else {
+        alert('회원가입에 실패하였습니다.')
+        console.log(err)
+      }
     }
   }
-
-  // [주] 아이디 중복 확인 함수 개발
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -85,7 +88,7 @@ const Signup = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <Button label="중복확인" color="gray" type="button" />
+            {/* <Button label="중복확인" color="gray" type="button" /> */}
           </div>
 
 
